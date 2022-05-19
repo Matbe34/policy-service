@@ -4,10 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import polS.Security.Secured;
@@ -21,10 +20,10 @@ public class PolS {
         return Response.ok().entity("Service online").build();
     }
     
-    @POST
+    @GET
     @Secured
     @Path("/forgePolicy")
-    public Response forgePolicy(@FormParam("role") String role, @FormParam("action") String action, @FormParam("date") String date){
+    public Response forgePolicy(@QueryParam("role") String role, @QueryParam("action") String action, @QueryParam("date") String date){
         if(role == null || action == null || date == null
                 || role.isEmpty() || action.isEmpty() || date.isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).build();

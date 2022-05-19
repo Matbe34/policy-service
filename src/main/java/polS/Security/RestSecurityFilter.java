@@ -47,7 +47,7 @@ public class RestSecurityFilter implements ContainerRequestFilter {
             String[] chunks = token.split("\\.");
             String dec = new String(Base64.getDecoder().decode(chunks[0]));
             JsonObject json = JsonParser.parseString(dec).getAsJsonObject();
-            //TODO: check algorithm type
+            if(!json.get("alg").getAsString().equals("RS256"))requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
             String kid = json.get("kid").getAsString(); // get data object
             if(oauthUrl == null) UrlUtil.loadProps();
             JwkProvider provider = new UrlJwkProvider(new URL(oauthUrl));
